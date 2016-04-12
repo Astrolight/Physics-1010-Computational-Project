@@ -1,0 +1,25 @@
+Project-6: Particle simulation:  Imagine a billiard (pool) table and two balls on the table. Give them some initial random velocity and move them by a small time step, dt. If the balls hit the edge of the table then apply collision principle to change velocity direction without any loss of energy. The two balls will keep bouncing of the walls (edge) until they come close to each other. Under this condition they will collide with each other and their direction will change and also velocity will change based on the physics of collision. The basic loop of the simulation will be as follows:
+input the particle masses and their initial positions and velocities for each time step
+
+for each particle
+      determine whether a collision will occur in this time step
+
+      if a collision will occur then
+
+               update the particles position and velocity appropriately
+
+               if the collision is with a wall accumulate the force on the wall
+
+     else
+
+               update the particles position and velocity
+
+     endif
+
+endfor
+
+display the positions of some particles
+
+endfor
+
+The VPython program should show the motion of two balls. Create plot of position vs time, and, velocity vs time for each ball.

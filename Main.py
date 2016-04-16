@@ -2,7 +2,8 @@
 
 from visual import *
 
-def collision_detection(object_table):
+def collision_detection_sphere(sphere_table):
+    #Detects collisions bettwen diffrent spheres
     for i in range(0,len(object_table)):
         for n in range(0,len(object_table)):
             if n!=i:

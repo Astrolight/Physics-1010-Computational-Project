@@ -14,23 +14,23 @@ num_of_spheres=2
 #Code defined variables
 spheres=[]
 walls=[]
-time=[]
+time=[0]
 
 #Sphere 1 data
-svx1=[]
-spx1=[]
-svy1=[]
-spy1=[]
-svz1=[]
-spz1=[]
+sv1x=[]
+sp1x=[]
+sv1y=[]
+sp1y=[]
+sv1z=[]
+sp1z=[]
 
 #Sphere 2 data
-svx2=[]
-spx2=[]
-svy2=[]
-spy2=[]
-svz2=[]
-spz2=[]
+sv2x=[]
+sp2x=[]
+sv2y=[]
+sp2y=[]
+sv2z=[]
+sp2z=[]
 
 #Functions
 def collision_detection_sphere(sphere_table):
@@ -67,14 +67,14 @@ def physics_step(sphere_table,dt):
     for i in range(0,len(sphere_table)):
         sphere_table[i].pos+=sphere_table.velocity*dt
 
-def create_sphere(ns,w,h,):
+def create_sphere(ns,w,h):
     maxvel=avg([w,h])
     for i in range(0,ns):
         x=randomfloat(w-1.5)
         y=randomfloat(h-1.5)
         vx=randomfloat(maxvel)
         vy=randomfloat(maxvel)
-        spheres.append(sphere(pos=(x,y,0)),velocity=(vx,vy,0))
+        spheres.append(sphere(pos=(x,y,0),velocity=(vx,vy,0)))
 
 def create_walls(w,h):
     #Creates board with a center of the origin that encompasus the area
@@ -118,5 +118,3 @@ def getdata(sphere_table):
     sv2x.append(sphere_table[1].pos.x)
     sv2y.append(sphere_table[1].pos.x)
     sv2z.append(sphere_table[1].pos.x)
-
-getdata(spheres)

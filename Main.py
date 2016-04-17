@@ -5,7 +5,8 @@ from visual import *
 import random
 
 dt=0.1
-rate=100
+periodofwhile=100
+number_of_datapoints=20
 
 width=10
 height=10
@@ -14,7 +15,7 @@ num_of_spheres=2
 #Code defined variables
 spheres=[]
 walls=[]
-time=[0]
+time=[]
 
 #Sphere 1 data
 sv1x=[]
@@ -61,11 +62,11 @@ def collision_detection_wall(wall_table,sphere_table):
             if abs(wall_table[w].pos.y-sphere_table[s].pos.y)<(sphere_table[s].radius+wall_table[w].size.y):
                 sphere_table[s].velocity.y=-sphere_table[s].velocity.y
 
-def physics_step(sphere_table,dt):
+def physics_step(sphere_table):
     #First update velocity, then pos
     #Assumes other physics checks have already been done i.e. collision checks
     for i in range(0,len(sphere_table)):
-        sphere_table[i].pos+=sphere_table.velocity*dt
+        sphere_table[i].pos+=sphere_table[i].velocity*dt
 
 def create_sphere(ns,w,h):
     maxvel=avg([w,h])
@@ -74,7 +75,7 @@ def create_sphere(ns,w,h):
         y=randomfloat(h-1.5)
         vx=randomfloat(maxvel)
         vy=randomfloat(maxvel)
-        spheres.append(sphere(pos=(x,y,0),velocity=(vx,vy,0)))
+        spheres.append(sphere(pos=(x,y,0),velocity=vector(vx,vy,0)))
 
 def create_walls(w,h):
     #Creates board with a center of the origin that encompasus the area
@@ -103,18 +104,48 @@ def vectormag(vector):
 
 def getdata(sphere_table):
     #Only collects data for first 2 spheres
-    time.append(dt+time[len(time)-1])
+    if time!=[]:
+        time.append(dt+time[len(time)-1])
+    else:
+        time.append(0)
     #Sphere 1 data collection
     sp1x.append(sphere_table[0].pos.x)
-    sp1y.append(sphere_table[0].pos.x)
-    sp1z.append(sphere_table[0].pos.x)
-    sv1x.append(sphere_table[0].pos.x)
-    sv1y.append(sphere_table[0].pos.x)
-    sv1z.append(sphere_table[0].pos.x)
+    sp1y.append(sphere_table[0].pos.y)
+    sp1z.append(sphere_table[0].pos.z)
+    sv1x.append(sphere_table[0].velocity.x)
+    sv1y.append(sphere_table[0].velocity.y)
+    sv1z.append(sphere_table[0].velocity.z)
     #Sphere 2 data collection
     sp2x.append(sphere_table[1].pos.x)
     sp2y.append(sphere_table[1].pos.x)
     sp2z.append(sphere_table[1].pos.x)
-    sv2x.append(sphere_table[1].pos.x)
-    sv2y.append(sphere_table[1].pos.x)
-    sv2z.append(sphere_table[1].pos.x)
+    sv2x.append(sphere_table[1].velocity.x)
+    sv2y.append(sphere_table[1].velocity.x)
+    sv2z.append(sphere_table[1].velocity.x)
+
+def graph():
+    plt.subplot(2,2,1)
+    plt.title("Sphere 1 Pos and Vel in X")
+    plt.plot(time,sp1x,color=color.blue,label="S1 Pos(m)")
+    plt.plot(time,sv1x,color=color.red,label="S1 Vel(m)")
+    plt.legend()
+    plt.xlabel('time (s)')
+    plt.subplot(2,2,3)
+    plt.title("Sphere 1 Pos and Vel in Y")
+    plt.plot(time,sp1y,color=color.blue,label="S1 Pos(m)")
+    plt.plot(time,sv1y,color=color.red,label="S1 Vel(m)")
+    plt.xlabel('time (s)')
+    plt.legend()
+    plt.subplot(2,2,2)
+    plt.title("Sphere 2 Pos and Vel in X")
+    plt.plot(time,sp2x,color=color.blue,label="S2 Pos(m)")
+    plt.plot(time,sv2x,color=color.red,label="S2 Vel(m)")
+    plt.xlabel('time (s)')
+    plt.legend()
+    plt.subplot(2,2,4)
+    plt.title("Sphere 2 Pos and Vel in Y")
+    plt.plot(time,sp2y,color=color.blue,label="S2 Pos(m)")
+    plt.plot(time,sv2y,color=color.red,label="S2 Vel(m)")
+    plt.xlabel('time (s)')
+    plt.legend()
+    plt.show()

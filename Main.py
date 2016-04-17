@@ -48,11 +48,14 @@ def physics_step(sphere_table,dt):
     for i in range(0,len(sphere_table)):
         sphere_table[i].pos+=sphere_table.velocity*dt
 
-def create_sphere(ns,w,h):
+def create_sphere(ns,w,h,):
+    maxvel=avg([w,h])
     for i in range(0,ns):
-        a=randomfloat(w-1.5)
-        b=randomfloat(h-1.5)
-        spheres.append(sphere(pos=(a,b,0)))
+        x=randomfloat(w-1.5)
+        y=randomfloat(h-1.5)
+        vx
+        vy
+        spheres.append(sphere(pos=(x,y,0)))
 
 def create_walls(w,h):
     #Creates board with a center of the origin that encompasus the area
@@ -68,3 +71,11 @@ def randomfloat(width):
         return random.random()*width
     else:
         return -random.random()*width
+
+def avg(table_of_values):
+    sum=0
+    for i in range(0,len(table_of_values)):
+        sum=+table_of_values[i]
+    return sum/len(table_of_values)
+
+create_sphere(1,1,1)

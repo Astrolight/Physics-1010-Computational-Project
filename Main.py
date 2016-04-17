@@ -47,16 +47,16 @@ def collision_detection_sphere(sphere_table):
 def collision_detection_wall(wall_table,sphere_table):
     for w in range(0,len(wall_table)):
         for s in range(0,len(sphere_table)):
-            if abs(wall_table[w].pos.x-sphere_table[s].pos.x)<(sphere_table[s].radius+wall_table[w].size.x):
+            if abs(wall_table[w].pos.x-sphere_table[s].pos.x)<(sphere_table[s].radius*0.5+wall_table[w].size.x):
                 sphere_table[s].velocity.x=-sphere_table[s].velocity.x
-            if abs(wall_table[w].pos.y-sphere_table[s].pos.y)<(sphere_table[s].radius+wall_table[w].size.y):
+            if abs(wall_table[w].pos.y-sphere_table[s].pos.y)<(sphere_table[s].radius*0.5+wall_table[w].size.y):
                 sphere_table[s].velocity.y=-sphere_table[s].velocity.y
 
-def physics_step(sphere_table):
+def physics_step(object_table):
     #First update velocity, then pos
     #Assumes other physics checks have already been done i.e. collision checks
-    for i in range(0,len(sphere_table)):
-        sphere_table[i].pos+=sphere_table[i].velocity*dt
+    for i in range(0,len(object_table)):
+        object_table[i].pos+=object_table[i].velocity*dt
 
 def linear_momentum(object1,object2):
     #Assumes elastic collision and masses are the same
@@ -69,6 +69,7 @@ def linear_momentum(object1,object2):
     object1.velocity.x=b
     object2.velocity.y=c
     object1.velocity.y=d
+    print(object2.velocity.x)
 
 #Creation of Objects
 def create_sphere(ns,w,h):
@@ -165,3 +166,7 @@ while iteration<time_to_stop:
     rate(Number_of_iterations_per_sec)
     iteration+=dt
     collision_detection_sphere(spheres)
+    collision_detection_wall(walls,spheres)
+    physics_step(spheres)
+    getdata(spheres)
+graph()

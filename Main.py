@@ -1,5 +1,6 @@
 #Tyme Suda and Matthew Wilson
 
+import matplotlib.pyplot as plt
 from visual import *
 import random
 
@@ -13,7 +14,25 @@ num_of_spheres=2
 #Code defined variables
 spheres=[]
 walls=[]
+time=[]
 
+#Sphere 1 data
+svx1=[]
+spx1=[]
+svy1=[]
+spy1=[]
+svz1=[]
+spz1=[]
+
+#Sphere 2 data
+svx2=[]
+spx2=[]
+svy2=[]
+spy2=[]
+svz2=[]
+spz2=[]
+
+#Functions
 def collision_detection_sphere(sphere_table):
     #Detects collisions bettwen diffrent spheres
     for i in range(0,len(sphere_table)):
@@ -77,3 +96,27 @@ def avg(table_of_values):
     for i in range(0,len(table_of_values)):
         sum=+table_of_values[i]
     return sum/len(table_of_values)
+
+def vectormag(vector):
+    l=sqrt(vector[0]**2+vector[1]**2+vector[2]**2)
+    return l
+
+def getdata(sphere_table):
+    #Only collects data for first 2 spheres
+    time.append(dt+time[len(time)-1])
+    #Sphere 1 data collection
+    sp1x.append(sphere_table[0].pos.x)
+    sp1y.append(sphere_table[0].pos.x)
+    sp1z.append(sphere_table[0].pos.x)
+    sv1x.append(sphere_table[0].pos.x)
+    sv1y.append(sphere_table[0].pos.x)
+    sv1z.append(sphere_table[0].pos.x)
+    #Sphere 2 data collection
+    sp2x.append(sphere_table[1].pos.x)
+    sp2y.append(sphere_table[1].pos.x)
+    sp2z.append(sphere_table[1].pos.x)
+    sv2x.append(sphere_table[1].pos.x)
+    sv2y.append(sphere_table[1].pos.x)
+    sv2z.append(sphere_table[1].pos.x)
+
+getdata(spheres)

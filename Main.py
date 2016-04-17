@@ -1,6 +1,18 @@
 #Tyme Suda and Matthew Wilson
 
 from visual import *
+import random
+
+dt=0.1
+rate=100
+
+width=10
+height=10
+num_of_spheres=2
+
+#Code defined variables
+spheres=[]
+walls=[]
 
 def collision_detection_sphere(sphere_table):
     #Detects collisions bettwen diffrent spheres
@@ -35,3 +47,24 @@ def physics_step(sphere_table,dt):
     #Assumes other physics checks have already been done i.e. collision checks
     for i in range(0,len(sphere_table)):
         sphere_table[i].pos+=sphere_table.velocity*dt
+
+def create_sphere(ns,w,h):
+    for i in range(0,ns):
+        a=randomfloat(w-1.5)
+        b=randomfloat(h-1.5)
+        spheres.append(sphere(pos=(a,b,0)))
+
+def create_walls(w,h):
+    #Creates board with a center of the origin that encompasus the area
+    v=1
+    walls.append(box(pos=((w),0,0), size=(v,h*2,v)))
+    walls.append(box(pos=((-w),0,0), size=(v,h*2,v)))
+    walls.append(box(pos=(0,h,0), size=(w*2,v,v)))
+    walls.append(box(pos=(0,-h,0), size=(w*2,v,v)))
+
+def randomfloat(width):
+    #reutrns random flote bettwen width and -width
+    if random.randint(0,1)==1:
+        return random.random()*width
+    else:
+        return -random.random()*width

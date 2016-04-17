@@ -53,9 +53,9 @@ def create_sphere(ns,w,h,):
     for i in range(0,ns):
         x=randomfloat(w-1.5)
         y=randomfloat(h-1.5)
-        vx
-        vy
-        spheres.append(sphere(pos=(x,y,0)))
+        vx=randomfloat(maxvel)
+        vy=randomfloat(maxvel)
+        spheres.append(sphere(pos=(x,y,0)),velocity=(vx,vy,0))
 
 def create_walls(w,h):
     #Creates board with a center of the origin that encompasus the area
@@ -77,5 +77,3 @@ def avg(table_of_values):
     for i in range(0,len(table_of_values)):
         sum=+table_of_values[i]
     return sum/len(table_of_values)
-
-create_sphere(1,1,1)

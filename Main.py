@@ -4,15 +4,16 @@ import matplotlib.pyplot as plt
 from visual import *
 import random
 
-dt=0.1
-periodofwhile=100
-number_of_datapoints=20
+Number_of_iterations_per_sec=100
+dt=0.01
+time_to_stop=20
 
 width=10
 height=10
 num_of_spheres=2
 
 #Code defined variables
+iteration=0
 spheres=[]
 walls=[]
 time=[]
@@ -43,18 +44,6 @@ def collision_detection_sphere(sphere_table):
                 if abs(sphere_table[i].pos-sphere_table[n].pos)<(sphere_table[i].radius*2):
                     linear_momentum(sphere_table[i],sphere_table[n])
 
-def linear_momentum(object1,object2):
-    #Assumes elastic collision and masses are the same
-    #Also all collsions are at closest point i.e. Vel vector points straight through both objects. Might ajust later but will take a lot more programing
-    a=object1.velocity.x
-    b=object2.velocity.x
-    c=object1.velocity.y
-    d=object2.velocity.y
-    object2.velocity.x=a
-    object1.velocity.x=b
-    object2.velocity.y=c
-    object1.velocity.y=d
-
 def collision_detection_wall(wall_table,sphere_table):
     for w in range(0,len(wall_table)):
         for s in range(0,len(sphere_table)):
@@ -68,6 +57,18 @@ def physics_step(sphere_table):
     #Assumes other physics checks have already been done i.e. collision checks
     for i in range(0,len(sphere_table)):
         sphere_table[i].pos+=sphere_table[i].velocity*dt
+
+def linear_momentum(object1,object2):
+    #Assumes elastic collision and masses are the same
+    #Also all collsions are at closest point i.e. Vel vector points straight through both objects. Might ajust later but will take a lot more programing
+    a=object1.velocity.x
+    b=object2.velocity.x
+    c=object1.velocity.y
+    d=object2.velocity.y
+    object2.velocity.x=a
+    object1.velocity.x=b
+    object2.velocity.y=c
+    object1.velocity.y=d
 
 #Creation of Objects
 def create_sphere(ns,w,h):
@@ -158,3 +159,9 @@ def vectormag(vector):
 #Setup
 create_walls(width,height)
 create_sphere(num_of_spheres,width,height)
+getdata(spheres)
+#print("Code will take "+str(time_to_stop/dt/Number_of_iterations_per_sec)+" sec to run.")
+while iteration<time_to_stop:
+    rate(Number_of_iterations_per_sec)
+    iteration+=dt
+    collision_detection_sphere(spheres)

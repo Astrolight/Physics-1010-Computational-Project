@@ -34,6 +34,7 @@ sv2z=[]
 sp2z=[]
 
 #Functions
+#Physics
 def collision_detection_sphere(sphere_table):
     #Detects collisions bettwen diffrent spheres
     for i in range(0,len(sphere_table)):
@@ -68,6 +69,7 @@ def physics_step(sphere_table):
     for i in range(0,len(sphere_table)):
         sphere_table[i].pos+=sphere_table[i].velocity*dt
 
+#Creation of Objects
 def create_sphere(ns,w,h):
     maxvel=avg([w,h])
     for i in range(0,ns):
@@ -85,23 +87,7 @@ def create_walls(w,h):
     walls.append(box(pos=(0,h,0), size=(w*2,v,v)))
     walls.append(box(pos=(0,-h,0), size=(w*2,v,v)))
 
-def randomfloat(width):
-    #reutrns random flote bettwen width and -width
-    if random.randint(0,1)==1:
-        return random.random()*width
-    else:
-        return -random.random()*width
-
-def avg(table_of_values):
-    sum=0
-    for i in range(0,len(table_of_values)):
-        sum=+table_of_values[i]
-    return sum/len(table_of_values)
-
-def vectormag(vector):
-    l=sqrt(vector[0]**2+vector[1]**2+vector[2]**2)
-    return l
-
+#Graphing
 def getdata(sphere_table):
     #Only collects data for first 2 spheres
     if time!=[]:
@@ -149,3 +135,26 @@ def graph():
     plt.xlabel('time (s)')
     plt.legend()
     plt.show()
+
+#Math
+def randomfloat(width):
+    #reutrns random flote bettwen width and -width
+    if random.randint(0,1)==1:
+        return random.random()*width
+    else:
+        return -random.random()*width
+
+def avg(table_of_values):
+    sum=0
+    for i in range(0,len(table_of_values)):
+        sum=+table_of_values[i]
+    return sum/len(table_of_values)
+
+def vectormag(vector):
+    l=sqrt(vector[0]**2+vector[1]**2+vector[2]**2)
+    return l
+
+#Main Code
+#Setup
+create_walls(width,height)
+create_sphere(num_of_spheres,width,height)

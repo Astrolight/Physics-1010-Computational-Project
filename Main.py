@@ -44,12 +44,11 @@ def physics_step(sphere_table,dt):
     for i in range(0,len(sphere_table)):
         sphere_table[i].pos+=sphere_table.velocity*dt
 
-def create_sphere(num_of_spheres,width,length):
-    for i in range(0,num_of_spheres):
-        a=randomfloat(width)
-        b=randomfloat(length)
+def create_sphere(ns,w,l):
+    for i in range(0,ns):
+        a=randomfloat(w)
+        b=randomfloat(l)
         spheres.append(sphere(pos=(a,b,0)))
-
 
 def randomfloat(width):
     #reutrns random flote bettwen width and -width

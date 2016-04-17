@@ -10,7 +10,7 @@ time_to_stop=100
 
 width=10
 height=10
-num_of_spheres=2
+num_of_spheres=5
 
 #Code defined variables
 iteration=0
@@ -44,7 +44,7 @@ def collision_detection_sphere(sphere_table):
         for n in range(0,len(sphere_table)):
             if n!=i:
                 if abs(sphere_table[i].pos-sphere_table[n].pos)<(sphere_table[i].radius*2):
-                    if abs(lastcollision-time[len(time)-1])<1:
+                    if abs(lastcollision-time[len(time)-1])<dt*10:
                         break
                     else:
                         linear_momentum(sphere_table[i],sphere_table[n])

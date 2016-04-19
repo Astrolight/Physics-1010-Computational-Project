@@ -6,7 +6,7 @@ import random
 
 Number_of_iterations_per_sec=500
 dt=0.01
-time_to_stop=100
+time_to_stop=20
 
 width=10
 height=10
@@ -17,7 +17,6 @@ iteration=0
 spheres=[]
 walls=[]
 time=[]
-lastcollision=0
 
 #Sphere 1 data
 sv1x=[]
@@ -40,15 +39,10 @@ sp2z=[]
 def collision_detection_sphere(sphere_table):
     #Detects collisions bettwen diffrent spheres
     lastcollision=0
-    for i in range(0,len(sphere_table)):
-        for n in range(0,len(sphere_table)):
-            if n!=i:
-                if abs(sphere_table[i].pos-sphere_table[n].pos)<(sphere_table[i].radius*2):
-                    if abs(lastcollision-time[len(time)-1])<dt*10:
-                        break
-                    else:
-                        linear_momentum(sphere_table[i],sphere_table[n])
-                        lastcollision=time[len(time)-1]
+    for i in range(0,(len(sphere_table)-1)):
+        for n in range(i+1,len(sphere_table)):
+            if abs(sphere_table[i].pos-sphere_table[n].pos)<(sphere_table[i].radius*2):
+                linear_momentum(sphere_table[i],sphere_table[n])
 
 def collision_detection_wall(wall_table,sphere_table):
     for w in range(0,len(wall_table)):

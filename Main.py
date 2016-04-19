@@ -6,18 +6,18 @@ import random
 
 Number_of_iterations_per_sec=500
 dt=0.01
-time_to_stop=100
+time_to_stop=20
 
 width=10
 height=10
-num_of_spheres=5
+num_of_spheres=10
 
 #Code defined variables
+tries_per_sphere=1000
 iteration=0
 spheres=[]
 walls=[]
 time=[]
-lastcollision=0
 
 #Sphere 1 data
 sv1x=[]
@@ -40,15 +40,10 @@ sp2z=[]
 def collision_detection_sphere(sphere_table):
     #Detects collisions bettwen diffrent spheres
     lastcollision=0
-    for i in range(0,len(sphere_table)):
-        for n in range(0,len(sphere_table)):
-            if n!=i:
-                if abs(sphere_table[i].pos-sphere_table[n].pos)<(sphere_table[i].radius*2):
-                    if abs(lastcollision-time[len(time)-1])<dt*10:
-                        break
-                    else:
-                        linear_momentum(sphere_table[i],sphere_table[n])
-                        lastcollision=time[len(time)-1]
+    for i in range(0,(len(sphere_table)-1)):
+        for n in range(i+1,len(sphere_table)):
+            if abs(sphere_table[i].pos-sphere_table[n].pos)<(sphere_table[i].radius*2):
+                linear_momentum(sphere_table[i],sphere_table[n])
 
 def collision_detection_wall(wall_table,sphere_table):
     for w in range(0,len(wall_table)):
@@ -80,8 +75,9 @@ def linear_momentum(object1,object2):
 def create_sphere(ns,w,h):
     maxvel=avg([w,h])
     for i in range(0,ns):
-        x=randomfloat(w-1.5)
-        y=randomfloat(h-1.5)
+        state,x,y=randompos(spheres,w,h,tries_per_sphere)
+        if state==False:
+            break
         vx=randomfloat(maxvel)
         vy=randomfloat(maxvel)
         spheres.append(sphere(pos=(x,y,0),velocity=vector(vx,vy,0)))
@@ -160,6 +156,29 @@ def avg(table_of_values):
 def vectormag(vector):
     l=sqrt(vector[0]**2+vector[1]**2+vector[2]**2)
     return l
+
+def randompos(sphere_table,w,h,number_of_tries):
+    #Makes sure 2 spheres do not spawn in one another
+    tries=1
+    correct=0
+    while tries<number_of_tries:
+        x=randomfloat(w-1.5)
+        y=randomfloat(h-1.5)
+        if len(sphere_table)==0:
+            return True,x,y
+        else:
+            for i in range(0,len(sphere_table)):
+                if abs(vector(x,y)-sphere_table[i].pos)>2:
+                    correct+=1
+                else:
+                    tries+=1
+            if correct>=(len(sphere_table)):
+                return True,x,y
+            else:
+                correct=0
+    return False,0,0
+
+
 
 #Main Code
 #Setup

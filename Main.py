@@ -17,9 +17,9 @@ tries_per_sphere=1000
 iteration=0
 spheres=[]
 walls=[]
-time=[]
 
-#Sphere data
+#Data
+time=[]
 svx=[]
 spx=[]
 svy=[]
@@ -29,7 +29,6 @@ spy=[]
 #Physics
 def collision_detection_sphere(sphere_table):
     #Detects collisions bettwen diffrent spheres
-    lastcollision=0
     for i in range(0,(len(sphere_table)-1)):
         for n in range(i+1,len(sphere_table)):
             if abs(sphere_table[i].pos-sphere_table[n].pos)<(sphere_table[i].radius*2):
@@ -88,7 +87,6 @@ def datasetup(sphere_table):
         spy.append([sphere_table[i].pos.y])
         svx.append([sphere_table[i].velocity.x])
         svy.append([sphere_table[i].velocity.y])
-
 
 def getdata(sphere_table):
     time.append(dt+time[len(time)-1])
@@ -157,7 +155,6 @@ def randompos(sphere_table,w,h,number_of_tries):
 create_walls(width,height)
 create_sphere(num_of_spheres,width,height)
 datasetup(spheres)
-#print("Code will take "+str(time_to_stop/dt/Number_of_iterations_per_sec)+" sec to run.")
 while iteration<time_to_stop:
     rate(Number_of_iterations_per_sec)
     iteration+=dt

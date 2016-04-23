@@ -10,7 +10,7 @@ time_to_stop=20
 
 width=10
 height=10
-num_of_spheres=10
+num_of_spheres=2
 
 #Code defined variables
 tries_per_sphere=1000
@@ -19,21 +19,11 @@ spheres=[]
 walls=[]
 time=[]
 
-#Sphere 1 data
-sv1x=[]
-sp1x=[]
-sv1y=[]
-sp1y=[]
-sv1z=[]
-sp1z=[]
-
-#Sphere 2 data
-sv2x=[]
-sp2x=[]
-sv2y=[]
-sp2y=[]
-sv2z=[]
-sp2z=[]
+#Sphere data
+svx=[]
+spx=[]
+svy=[]
+spy=[]
 
 #Functions
 #Physics
@@ -91,52 +81,36 @@ def create_walls(w,h):
     walls.append(box(pos=(0,-h,0), size=(w*2,v,v)))
 
 #Graphing
-def getdata(sphere_table):
-    #Only collects data for first 2 spheres
-    if time!=[]:
-        time.append(dt+time[len(time)-1])
-    else:
-        time.append(0)
-    #Sphere 1 data collection
-    sp1x.append(sphere_table[0].pos.x)
-    sp1y.append(sphere_table[0].pos.y)
-    sp1z.append(sphere_table[0].pos.z)
-    sv1x.append(sphere_table[0].velocity.x)
-    sv1y.append(sphere_table[0].velocity.y)
-    sv1z.append(sphere_table[0].velocity.z)
-    #Sphere 2 data collection
-    sp2x.append(sphere_table[1].pos.x)
-    sp2y.append(sphere_table[1].pos.x)
-    sp2z.append(sphere_table[1].pos.x)
-    sv2x.append(sphere_table[1].velocity.x)
-    sv2y.append(sphere_table[1].velocity.x)
-    sv2z.append(sphere_table[1].velocity.x)
+def datasetup(sphere_table):
+    time.append(0)
+    for i in range(0,len(sphere_table)):
+        spx.append([sphere_table[i].pos.x])
+        spy.append([sphere_table[i].pos.y])
+        svx.append([sphere_table[i].velocity.x])
+        svy.append([sphere_table[i].velocity.y])
 
-def graph():
-    plt.subplot(2,2,1)
-    plt.title("Sphere 1 Pos and Vel in X")
-    plt.plot(time,sp1x,color=color.blue,label="S1 Pos(m)")
-    plt.plot(time,sv1x,color=color.red,label="S1 Vel(m)")
-    plt.legend()
-    plt.xlabel('time (s)')
-    plt.subplot(2,2,3)
-    plt.title("Sphere 1 Pos and Vel in Y")
-    plt.plot(time,sp1y,color=color.blue,label="S1 Pos(m)")
-    plt.plot(time,sv1y,color=color.red,label="S1 Vel(m)")
-    plt.xlabel('time (s)')
-    plt.legend()
-    plt.subplot(2,2,2)
-    plt.title("Sphere 2 Pos and Vel in X")
-    plt.plot(time,sp2x,color=color.blue,label="S2 Pos(m)")
-    plt.plot(time,sv2x,color=color.red,label="S2 Vel(m)")
-    plt.xlabel('time (s)')
-    plt.legend()
-    plt.subplot(2,2,4)
-    plt.title("Sphere 2 Pos and Vel in Y")
-    plt.plot(time,sp2y,color=color.blue,label="S2 Pos(m)")
-    plt.plot(time,sv2y,color=color.red,label="S2 Vel(m)")
-    plt.xlabel('time (s)')
-    plt.legend()
+
+def getdata(sphere_table):
+    time.append(dt+time[len(time)-1])
+    k=len(time)
+    for i in range(0,len(sphere_table)):
+        spx[i].append(sphere_table[i].pos.x)
+        spy[i].append(sphere_table[i].pos.y)
+        svx[i].append(sphere_table[i].velocity.x)
+        svy[i].append(sphere_table[i].velocity.y)
+
+def graph(sphere_table):
+    plots=len(sphere_table)
+    i=1
+    for i in range(0,len(sphere_table)):
+        plt.subplot(2,plots,(i+1))
+        plt.title("Sphere "+str(i+1)+" Pos and Vel in X")
+        plt.plot(time,spx[i],color=color.blue,label=("S"+str(i+1)+" Pos(m)"))
+        plt.plot(time,svx[i],color=color.red,label=("S"+str(i+1)+" Vel(m)"))
+        plt.subplot(2,plots,(plots+i+1))
+        plt.title("Sphere "+str(i+1)+" Pos and Vel in Y")
+        plt.plot(time,spy[i],color=color.blue,label=("S"+str(i+1)+" Pos(m)"))
+        plt.plot(time,svy[i],color=color.red,label=("S"+str(i+1)+" Vel(m)"))
     plt.show()
 
 #Math
@@ -178,13 +152,11 @@ def randompos(sphere_table,w,h,number_of_tries):
                 correct=0
     return False,0,0
 
-
-
 #Main Code
 #Setup
 create_walls(width,height)
 create_sphere(num_of_spheres,width,height)
-getdata(spheres)
+datasetup(spheres)
 #print("Code will take "+str(time_to_stop/dt/Number_of_iterations_per_sec)+" sec to run.")
 while iteration<time_to_stop:
     rate(Number_of_iterations_per_sec)
@@ -193,4 +165,4 @@ while iteration<time_to_stop:
     collision_detection_wall(walls,spheres)
     physics_step(spheres)
     getdata(spheres)
-graph()
+graph(spheres)
